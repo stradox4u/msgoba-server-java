@@ -24,7 +24,7 @@ public class Question extends BaseEntity{
     private String question;
 
     @Column(nullable = false)
-    private List<String> options;
+    private List<String> options = new ArrayList<>();
 
     @Column(nullable = false)
     private Integer correctOption;

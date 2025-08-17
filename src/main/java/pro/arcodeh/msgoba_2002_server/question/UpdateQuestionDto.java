@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Size;
 import java.util.List;
 
 public record UpdateQuestionDto(
-        @Size(min = 5, max = 50, message = "Question must be between 5 and 50 characters")
+        @Size(min = 5, max = 255, message = "Question must be between 5 and 255 characters")
         String question,
 
         List<@NotEmpty(message = "Empty options are not allowed") String> options,
