@@ -1,0 +1,7 @@
+spring:
+  config:
+    import: optional:secrets-dev.yaml
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true

@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: msgoba-2002-server
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    database: postgresql
