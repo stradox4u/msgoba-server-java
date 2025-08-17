@@ -46,7 +46,7 @@ public class QuestionService {
         if(dto.correctOption() != null) {
             List<String> options = oldQuestion.getOptions();
             int correctOption = dto.correctOption();
-            if(options == null || correctOption < 0 || correctOption >= options.size()) {
+            if(options.isEmpty() || correctOption < 0 || correctOption >= options.size()) {
                 throw new IllegalArgumentException("correctOption index is out of bounds of the options array");
             }
             oldQuestion.setCorrectOption(dto.correctOption());
