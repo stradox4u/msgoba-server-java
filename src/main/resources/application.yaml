@@ -5,3 +5,5 @@ spring:
     hibernate:
       ddl-auto: validate
     database: postgresql
+  flyway:
+    enabled: true

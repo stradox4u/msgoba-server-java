@@ -20,7 +20,7 @@ public class BaseEntity {
     private UUID id;
 
     @Column(updatable = false, nullable = false)
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     @Column(insertable = false)
     private LocalDateTime updatedAt;

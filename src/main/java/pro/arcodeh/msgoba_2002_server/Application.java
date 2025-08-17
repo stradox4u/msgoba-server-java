@@ -1,5 +1,7 @@
 package pro.arcodeh.msgoba_2002_server;
 
+import org.flywaydb.core.Flyway;
+import org.flywaydb.core.api.output.MigrateResult;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,7 +16,8 @@ public class Application {
 	}
 
     @Bean
-    public CommandLineRunner commandLineRunner(ProtoProfileSeeder protoProfileSeeder) {
+    public CommandLineRunner commandLineRunner(ProtoProfileSeeder protoProfileSeeder, Flyway flyway) {
+        MigrateResult migrationResult = flyway.migrate();
         return args -> {
             if(protoProfileSeeder.shouldSeed()) {
                 protoProfileSeeder.runSeeding();

@@ -3,6 +3,7 @@ package pro.arcodeh.msgoba_2002_server.seeder;
 import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import pro.arcodeh.msgoba_2002_server.models.ProtoProfile;
 import pro.arcodeh.msgoba_2002_server.models.ProtoProfileDao;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@Slf4j
 @Component
 public class ProtoProfileSeeder implements SeederInterface{
     private final CsvMapper csvMapper;
@@ -41,6 +43,9 @@ public class ProtoProfileSeeder implements SeederInterface{
             if(dateOfBirthString.isEmpty()) {
                 dateOfBirthString = "1970-01-01";
             }
+            if(dateOfBirthString.startsWith("00")) {
+                dateOfBirthString = "19" + dateOfBirthString.substring(2);
+            }
             LocalDate localDate = LocalDate.parse(dateOfBirthString);
             LocalDateTime dOfB = localDate.atTime(12, 0);
             var protoProfile = ProtoProfile.builder()
@@ -54,7 +59,7 @@ public class ProtoProfileSeeder implements SeederInterface{
         });
 
         this.protoProfileRepository.saveAll(protoProfiles);
-        System.out.println("Successfully seeded proto-profiles");
+        log.info("Successfully seeded proto-profiles");
     }
 
     private List<ProtoProfileDao> readCsv(File profilesFile) {
