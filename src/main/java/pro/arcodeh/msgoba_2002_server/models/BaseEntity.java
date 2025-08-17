@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -20,8 +22,10 @@ public class BaseEntity {
     private UUID id;
 
     @Column(updatable = false, nullable = false)
+    @CreationTimestamp
     private LocalDateTime createdAt;
 
     @Column(insertable = false)
+    @UpdateTimestamp
     private LocalDateTime updatedAt;
 }
