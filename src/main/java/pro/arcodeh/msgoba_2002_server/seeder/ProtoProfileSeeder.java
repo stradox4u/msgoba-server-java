@@ -53,7 +53,6 @@ public class ProtoProfileSeeder implements SeederInterface{
                     .dateOfBirth(dOfB)
                     .phoneNumber(dao.getPhoneNumber())
                     .nickname(dao.getNickname().isEmpty() ? null : dao.getNickname())
-                    .createdAt(LocalDateTime.now())
                     .build();
             protoProfiles.add(protoProfile);
         });

@@ -56,6 +56,12 @@ public class QuestionService {
     }
 
     public void deleteQuestion(UUID questionId) {
+        boolean questionExists = this.questionRepository.existsById(questionId);
+
+        if(questionExists) {
+            throw new NotFoundException("Question not found. Deletion failed.");
+        }
+
         this.questionRepository.deleteById(questionId);
     }
 }

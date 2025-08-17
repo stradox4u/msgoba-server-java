@@ -18,12 +18,7 @@ public class Application {
 	}
 
     @Bean
-    public CommandLineRunner commandLineRunner(ProtoProfileSeeder protoProfileSeeder, Flyway flyway) {
-        MigrateResult migrationResult = flyway.migrate();
-
-        log.info("Flyway migration completed: {} migrations applied, success: {}",
-                migrationResult.migrationsExecuted, migrationResult.success);
-
+    public CommandLineRunner commandLineRunner(ProtoProfileSeeder protoProfileSeeder) {
         return args -> {
             if(protoProfileSeeder.shouldSeed()) {
                 protoProfileSeeder.runSeeding();
