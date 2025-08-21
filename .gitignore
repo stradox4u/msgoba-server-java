@@ -35,3 +35,4 @@ build/
 ### Secrets ###
 secrets-*.yaml
 secrets.yaml
+service-acct-key.json
