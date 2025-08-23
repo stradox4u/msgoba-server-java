@@ -7,3 +7,6 @@ spring:
     database: postgresql
   flyway:
     enabled: true
+server:
+  servlet:
+    context-path: /api

@@ -24,7 +24,7 @@ public class FirebaseConfig {
         ClassPathResource resource = new ClassPathResource(googleAcctKey);
         InputStream serviceAccount = resource.getInputStream();
 
-        FirebaseOptions options = new FirebaseOptions.Builder()
+        FirebaseOptions options = FirebaseOptions.builder()
                 .setCredentials(GoogleCredentials.fromStream(serviceAccount))
                 .build();
 
