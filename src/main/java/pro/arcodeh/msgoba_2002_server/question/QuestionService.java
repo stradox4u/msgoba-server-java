@@ -1,5 +1,6 @@
 package pro.arcodeh.msgoba_2002_server.question;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import pro.arcodeh.msgoba_2002_server.NotFoundException;
 import pro.arcodeh.msgoba_2002_server.models.Question;
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Slf4j
 @Component
 public class QuestionService {
     private final QuestionRepository questionRepository;
@@ -30,7 +32,9 @@ public class QuestionService {
     }
 
     public List<Question> getQuestions() {
-        return this.questionRepository.findAll();
+        List<Question> allQuestions = this.questionRepository.findAll();
+        log.info("Retrieved {} questions from the database", allQuestions.size());
+        return allQuestions;
     }
 
     public Question updateQuestion(UUID questionId, UpdateQuestionDto dto) {
@@ -58,7 +62,7 @@ public class QuestionService {
     public void deleteQuestion(UUID questionId) {
         boolean questionExists = this.questionRepository.existsById(questionId);
 
-        if(questionExists) {
+        if(!questionExists) {
             throw new NotFoundException("Question not found. Deletion failed.");
         }
 

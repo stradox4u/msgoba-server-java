@@ -1,5 +1,10 @@
 package pro.arcodeh.msgoba_2002_server.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import io.hypersistence.utils.hibernate.type.array.StringArrayType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
@@ -7,10 +12,12 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.annotations.Type;
+import org.hibernate.type.SqlTypes;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -18,22 +25,18 @@ import java.util.UUID;
 @NoArgsConstructor
 @SuperBuilder
 @Entity
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class Question extends BaseEntity{
 
     @Column(nullable = false)
     private String question;
 
-    @Column(nullable = false)
+    @JdbcTypeCode(SqlTypes.ARRAY)
+    @Column(nullable = false, columnDefinition = "text[]")
     private List<String> options = new ArrayList<>();
 
-    @Column(nullable = false)
+    @JsonProperty("correctOption")
+    @Column(nullable = false, name = "correct_option")
     private Integer correctOption;
-
-    public void addOption(String option) {
-        this.options.add(option);
-    }
-
-    public String getOption(Integer index) {
-        return this.options.get(index);
-    }
 }

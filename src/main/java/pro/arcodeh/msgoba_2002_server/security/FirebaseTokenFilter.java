@@ -6,6 +6,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -18,8 +19,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @Component
 public class FirebaseTokenFilter extends OncePerRequestFilter {
+    private final FirebaseAuth firebaseAuth;
+
+    public FirebaseTokenFilter(FirebaseAuth firebaseAuth) {
+        this.firebaseAuth = firebaseAuth;
+    }
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
         throws ServletException, IOException {
@@ -32,7 +40,7 @@ public class FirebaseTokenFilter extends OncePerRequestFilter {
         String authToken = authHeader.substring(7);
 
         try {
-            FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(authToken);
+            FirebaseToken decodedToken = firebaseAuth.verifyIdToken(authToken);
             String uid = decodedToken.getUid();
 
             Map<String, Object> claims = decodedToken.getClaims();
@@ -52,6 +60,7 @@ public class FirebaseTokenFilter extends OncePerRequestFilter {
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
         } catch(Exception e) {
+            System.out.println("Token verification failed: " + e.getMessage());
             SecurityContextHolder.clearContext();
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid or expired token");
             return;

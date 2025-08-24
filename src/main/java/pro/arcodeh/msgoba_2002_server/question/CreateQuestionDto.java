@@ -1,5 +1,6 @@
 package pro.arcodeh.msgoba_2002_server.question;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
@@ -11,6 +12,7 @@ public record CreateQuestionDto(
         String question,
 
         @NotEmpty
+        @Size(min = 2, max = 3, message = "There must be between 2 and 3 options")
         List<@NotEmpty String> options,
 
         @Min(value = 0, message = "Correct option must be a positive index")
