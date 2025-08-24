@@ -1,5 +1,6 @@
 package pro.arcodeh.msgoba_2002_server.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,20 +13,24 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
 @MappedSuperclass
 public class BaseEntity {
+
+    public BaseEntity() {
+        this.createdAt = LocalDateTime.now();
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(updatable = false, nullable = false)
-    @CreationTimestamp
+    @JsonProperty("createdAt")
+    @Column(updatable = false, nullable = false, name = "created_at")
     private LocalDateTime createdAt;
 
-    @Column(insertable = false)
-    @UpdateTimestamp
+    @JsonProperty("updatedAt")
+    @Column(name = "updated_at", insertable = false)
     private LocalDateTime updatedAt;
 }

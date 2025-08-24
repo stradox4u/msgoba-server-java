@@ -2,6 +2,7 @@ package pro.arcodeh.msgoba_2002_server.question;
 
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pro.arcodeh.msgoba_2002_server.models.Question;
 
@@ -10,6 +11,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/question")
+@PreAuthorize("hasRole(T(pro.arcodeh.msgoba_2002_server.enums.UserRoles).ADMIN.name())")
 public class QuestionController {
     private final QuestionService questionService;
 
@@ -26,6 +28,7 @@ public class QuestionController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/")
     public List<Question> getQuestions() {
+        System.out.println("Fetching all questions");
         return this.questionService.getQuestions();
     }
 

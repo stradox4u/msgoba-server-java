@@ -1,5 +1,8 @@
 package pro.arcodeh.msgoba_2002_server;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.UserRecord;
 import lombok.extern.slf4j.Slf4j;
 import org.flywaydb.core.Flyway;
 import org.flywaydb.core.api.output.MigrateResult;
@@ -18,7 +21,7 @@ public class Application {
 	}
 
     @Bean
-    public CommandLineRunner commandLineRunner(ProtoProfileSeeder protoProfileSeeder) {
+    public CommandLineRunner commandLineRunner(ProtoProfileSeeder protoProfileSeeder, FirebaseApp firebaseApp) {
         return args -> {
             if(protoProfileSeeder.shouldSeed()) {
                 protoProfileSeeder.runSeeding();
