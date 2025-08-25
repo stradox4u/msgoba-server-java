@@ -3,10 +3,7 @@ package pro.arcodeh.msgoba_2002_server.question;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import pro.arcodeh.msgoba_2002_server.NotFoundException;
-import pro.arcodeh.msgoba_2002_server.models.BasicResponse;
-import pro.arcodeh.msgoba_2002_server.models.CheckAnswerDao;
-import pro.arcodeh.msgoba_2002_server.models.Question;
-import pro.arcodeh.msgoba_2002_server.models.QuestionsVerified;
+import pro.arcodeh.msgoba_2002_server.models.*;
 import pro.arcodeh.msgoba_2002_server.repositories.QuestionRepository;
 import pro.arcodeh.msgoba_2002_server.repositories.QuestionsVerifiedRepository;
 
@@ -41,9 +38,11 @@ public class QuestionService {
     }
 
     public List<Question> getQuestions() {
-        List<Question> allQuestions = this.questionRepository.findAll();
-        log.info("Retrieved {} questions from the database", allQuestions.size());
-        return allQuestions;
+        return this.questionRepository.findAll();
+    }
+
+    public List<QuestionLimitedDto> getRandomQuestions(Integer count) {
+        return this.questionRepository.findRandomQuestions(count);
     }
 
     public Question updateQuestion(UUID questionId, UpdateQuestionDto dto) {

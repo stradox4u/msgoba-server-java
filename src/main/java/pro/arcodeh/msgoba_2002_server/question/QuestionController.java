@@ -6,9 +6,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpStatusCodeException;
 import pro.arcodeh.msgoba_2002_server.models.BasicResponse;
 import pro.arcodeh.msgoba_2002_server.models.Question;
+import pro.arcodeh.msgoba_2002_server.models.QuestionLimitedDto;
 
 import java.util.List;
 import java.util.UUID;
@@ -31,10 +31,15 @@ public class QuestionController {
 
     @PreAuthorize("hasRole(T(pro.arcodeh.msgoba_2002_server.enums.UserRoles).ADMIN.name())")
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/")
-    public List<Question> getQuestions() {
-        System.out.println("Fetching all questions");
+    @GetMapping("/admin")
+    public List<Question> getQuestionsAdmin() {
         return this.questionService.getQuestions();
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/")
+    public List<QuestionLimitedDto> getRandomQuestions() {
+        return this.questionService.getRandomQuestions(3);
     }
 
     @PreAuthorize("hasRole(T(pro.arcodeh.msgoba_2002_server.enums.UserRoles).ADMIN.name())")
