@@ -1,6 +1,8 @@
 spring:
   application:
     name: msgoba-2002-server
+  config:
+    import: optional:secrets.yaml
   jpa:
     hibernate:
       ddl-auto: validate
