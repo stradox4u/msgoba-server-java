@@ -22,9 +22,9 @@ public class ProfileService {
         this.storageService = storageService;
     }
 
-    public Profile createProfile(CreateProfileDto dto) {
+    public Profile createProfile(CreateProfileDto dto, String userId) {
         Profile profile = Profile.builder()
-                .userId(dto.userId())
+                .userId(userId)
                 .phoneNumber(dto.phoneNumber())
                 .occupationStatus(dto.occupationStatus())
                 .occupation(dto.occupation())
@@ -128,11 +128,12 @@ public class ProfileService {
             return new BasicResponse("Profile does not exist", false);
         }
 
+        Profile existingProfile = this.profileRepository.findByUserId(userId);
+        String profilePictureUrl = existingProfile.getProfilePictureUrl();
+
+        this.storageService.deleteS3Object(profilePictureUrl);
+
         this.profileRepository.deleteByUserId(userId);
         return new BasicResponse("Successfully deleted profile", true);
-    }
-
-    public URL getS3UploadUrl(String objectKey, String contentType) {
-        return this.storageService.getUploadUrl(objectKey, contentType, 600L);
     }
 }

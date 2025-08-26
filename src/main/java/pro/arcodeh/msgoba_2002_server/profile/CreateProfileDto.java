@@ -9,9 +9,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 public record CreateProfileDto(
-        @NotEmpty
-        @NotNull
-        String userId,
 
         @NotEmpty
         @NotNull
