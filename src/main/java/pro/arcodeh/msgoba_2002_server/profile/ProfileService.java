@@ -64,7 +64,6 @@ public class ProfileService {
     }
 
     public Profile updateProfile(UpdateProfileDto dto, String userId) {
-//        Only set fields that are supplied in UpdateProfileDto
         Profile oldProfile = this.profileRepository.findByUserId(userId);
 
         if(dto.phoneNumber() != null) {
@@ -79,8 +78,47 @@ public class ProfileService {
             oldProfile.setOccupation(dto.occupation());
         }
 
-        Profile newProfile = this.profileRepository.save(oldProfile);
-        return newProfile;
+        if(dto.placeOfWork() != null) {
+            oldProfile.setPlaceOfWork(dto.placeOfWork());
+        }
+
+        if(dto.placeOfResidence() != null) {
+            oldProfile.setPlaceOfResidence(dto.placeOfResidence());
+        }
+
+        if(dto.hobbies() != null) {
+            oldProfile.setHobbies(dto.hobbies());
+        }
+
+        if(dto.birthday() != null) {
+            oldProfile.setBirthday(dto.birthday());
+        }
+
+        if(dto.maritalStatus() != null) {
+            oldProfile.setMaritalStatus(dto.maritalStatus());
+        }
+
+        if(dto.nickname() != null) {
+            oldProfile.setNickname(dto.nickname());
+        }
+
+        if(dto.finalClass() != null) {
+            oldProfile.setFinalClass(dto.finalClass());
+        }
+
+        if(dto.excoPosition() != null) {
+            oldProfile.setExcoPosition(dto.excoPosition());
+        }
+
+        if(dto.bio() != null) {
+            oldProfile.setBio(dto.bio());
+        }
+
+        if(dto.profilePictureUrl() != null) {
+            oldProfile.setProfilePictureUrl(dto.profilePictureUrl());
+        }
+
+        return this.profileRepository.save(oldProfile);
     }
 
     public BasicResponse deleteProfile(String userId) {
@@ -92,5 +130,9 @@ public class ProfileService {
 
         this.profileRepository.deleteByUserId(userId);
         return new BasicResponse("Successfully deleted profile", true);
+    }
+
+    public URL getS3UploadUrl(String objectKey, String contentType) {
+        return this.storageService.getUploadUrl(objectKey, contentType, 600L);
     }
 }
