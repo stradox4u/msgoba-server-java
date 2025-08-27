@@ -9,7 +9,7 @@ WORKDIR /app
 COPY . .
 RUN mvn clean package -DskipTests
 
-FROM eclipse-temurin:24-jre-jammy AS production
+FROM eclipse-temurin:24-jre-alpine
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
 EXPOSE 80
