@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import pro.arcodeh.msgoba_2002_server.models.ProtoProfile;
 import pro.arcodeh.msgoba_2002_server.models.ProtoProfileDao;
@@ -23,6 +24,9 @@ public class ProtoProfileSeeder implements SeederInterface{
     private final CsvMapper csvMapper;
     private final ProtoProfileRepository protoProfileRepository;
 
+    @Value("${seed.data.path}")
+    private String seedDataPath;
+
     public ProtoProfileSeeder(ProtoProfileRepository protoProfileRepository, CsvMapper csvMapper) {
         this.csvMapper = csvMapper;
         this.protoProfileRepository = protoProfileRepository;
@@ -35,7 +39,7 @@ public class ProtoProfileSeeder implements SeederInterface{
 
     @Override
     public void runSeeding() {
-        File profilesFile = new File(Objects.requireNonNull(this.getClass().getResource("/data/album.csv")).getFile());
+        File profilesFile = new File(this.seedDataPath);
         List<ProtoProfileDao> protoProfileDaos = this.readCsv(profilesFile);
         List<ProtoProfile> protoProfiles = new ArrayList<>();
         protoProfileDaos.forEach(dao -> {
