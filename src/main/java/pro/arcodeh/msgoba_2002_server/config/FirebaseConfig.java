@@ -9,24 +9,22 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
 @Configuration
 public class FirebaseConfig {
-    private final String googleAcctKey;
-
-    public FirebaseConfig(@Value("${spring.GOOGLE_ACCOUNT_KEY}") String googleAcctKey) {
-        this.googleAcctKey = googleAcctKey;
-    }
+    @Value("${spring.google_account_key}")
+    private String googleAcctKey;
 
     @Bean
     public FirebaseApp initializeFirebase() throws IOException {
-        ClassPathResource resource = new ClassPathResource(googleAcctKey);
-        InputStream serviceAccount = resource.getInputStream();
+        InputStream privateKeyStream = new ByteArrayInputStream(googleAcctKey.getBytes());
+
 
         FirebaseOptions options = FirebaseOptions.builder()
-                .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+                .setCredentials(GoogleCredentials.fromStream(privateKeyStream))
                 .build();
 
         if(FirebaseApp.getApps().isEmpty()) {
