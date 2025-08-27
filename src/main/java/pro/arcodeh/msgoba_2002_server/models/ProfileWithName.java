@@ -2,23 +2,26 @@ package pro.arcodeh.msgoba_2002_server.models;
 
 import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.UUID;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
-@AllArgsConstructor
+@SuperBuilder
 @NoArgsConstructor
-@Builder
-public class ProfileLimitedDto{
+@AllArgsConstructor
+public class ProfileWithName extends BaseEntity {
 
-    private UUID id;
+    private String fullName;
 
     private String userId;
+
+    private String phoneNumber;
 
     private String occupationStatus;
 

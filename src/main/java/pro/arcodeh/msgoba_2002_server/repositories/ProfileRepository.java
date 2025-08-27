@@ -18,6 +18,6 @@ public interface ProfileRepository extends JpaRepository<Profile, UUID> {
     @Query("DELETE FROM Profile p WHERE p.userId = :userId")
     void deleteByUserId(String userId);
 
-    @Query("SELECT new pro.arcodeh.msgoba_2002_server.models.ProfileLimitedDto(p.id, p.userId, p.occupationStatus, p.occupation, p.placeOfWork, p.placeOfResidence, p.hobbies, p.birthday, p.maritalStatus, p.nickname, p.finalClass, p.excoPosition, p.bio, p.profilePictureUrl) FROM Profile p WHERE p.userId <> :excludeUserId ORDER BY function('RAND') LIMIT :count")
+    @Query("SELECT new pro.arcodeh.msgoba_2002_server.models.ProfileLimitedDto(p.id, p.userId, p.occupationStatus, p.occupation, p.placeOfWork, p.placeOfResidence, p.hobbies, p.birthday, p.maritalStatus, p.nickname, p.finalClass, p.excoPosition, p.bio, p.profilePictureUrl) FROM Profile p WHERE p.userId <> :excludeUserId ORDER BY function('RANDOM') LIMIT :count")
     List<ProfileLimitedDto> getRandomProfiles(Integer count, String excludeUserId);
 }

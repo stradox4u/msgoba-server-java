@@ -1,15 +1,18 @@
 package pro.arcodeh.msgoba_2002_server.profile;
 
+import com.google.firebase.auth.FirebaseAuthException;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import pro.arcodeh.msgoba_2002_server.models.BasicResponse;
-import pro.arcodeh.msgoba_2002_server.models.Profile;
-import pro.arcodeh.msgoba_2002_server.models.ProfileLimitedDto;
+import pro.arcodeh.msgoba_2002_server.models.*;
 
 import java.util.List;
+import java.util.UUID;
 
+@Slf4j
 @RestController
 @RequestMapping("/profile")
 public class ProfileController {
@@ -30,18 +33,47 @@ public class ProfileController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/")
-    public Profile getMyProfile() {
+    public ResponseEntity<?> getMyProfile() {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
 
-        return this.profileService.getProfileByUserId(userId);
+        try {
+            ProfileWithName profile = this.profileService.getProfileByUserId(userId);
+            return ResponseEntity.ok(profile);
+        } catch(Exception ex) {
+            return ResponseEntity.notFound()
+                    .build();
+        }
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/user/{id}")
+    public ResponseEntity<?> getProfileById(@PathVariable UUID id) {
+        try {
+            ProfileLimitedDtoWithName profile = this.profileService.getProfileById(id);
+            if(profile == null) {
+                return ResponseEntity.notFound()
+                        .build();
+            }
+            return ResponseEntity.ok(profile);
+        } catch (FirebaseAuthException e) {
+            log.error("FirebaseAuthException from getProfileById: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED)
+                    .build();
+        }
     }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/random")
-    public List<ProfileLimitedDto> getRandomProfiles() {
+    public ResponseEntity<?> getRandomProfiles(@RequestParam Integer count) {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
 
-        return this.profileService.getRandomProfiles(5, userId);
+        try {
+            List<ProfileLimitedDtoWithName> limitedProfiles = this.profileService.getRandomProfiles(count, userId);
+            return ResponseEntity.ok(limitedProfiles);
+        } catch (FirebaseAuthException e) {
+            log.error("FirebaseAuthException from getRandomProfiles: {}", e.getMessage());
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     @ResponseStatus(HttpStatus.OK)

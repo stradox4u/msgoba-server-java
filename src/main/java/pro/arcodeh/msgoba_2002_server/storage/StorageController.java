@@ -24,9 +24,9 @@ public class StorageController {
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping("/delete/{key}")
-    public BasicResponse deleteS3Object(@PathVariable String key) {
-        this.storageService.deleteS3Object(key);
+    @DeleteMapping("/delete")
+    public BasicResponse deleteS3Object(@RequestParam String path) {
+        this.storageService.deleteS3Object(path);
 
         return new BasicResponse("Object successfully deleted", true);
     }

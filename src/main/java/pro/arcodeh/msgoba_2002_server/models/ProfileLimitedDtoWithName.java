@@ -1,6 +1,5 @@
 package pro.arcodeh.msgoba_2002_server.models;
 
-import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,12 +10,13 @@ import java.util.List;
 import java.util.UUID;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
-public class ProfileLimitedDto{
-
+public class ProfileLimitedDtoWithName {
     private UUID id;
+
+    private String fullName;
 
     private String userId;
 

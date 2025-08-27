@@ -30,7 +30,7 @@ public record UpdateProfileDto(
 
         String nickname,
 
-        @Size(min = 4, max = 5, message = "Final class must be between 4 and 5 characters")
+        @Size(min = 8, max = 8, message = "Final class must be 8 characters")
         String finalClass,
 
         String excoPosition,

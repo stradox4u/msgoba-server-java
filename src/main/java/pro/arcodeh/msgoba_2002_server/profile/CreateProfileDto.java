@@ -33,7 +33,6 @@ public record CreateProfileDto(
         @Size(min = 1, message = "You must provide at least one hobby")
         List<@NotEmpty String> hobbies,
 
-        @NotEmpty
         @NotNull
         @Past
         LocalDate birthday,
@@ -46,7 +45,7 @@ public record CreateProfileDto(
 
         @NotEmpty
         @NotNull
-        @Size(min = 4, max = 5, message = "Final class must be between 4 and 5 characters")
+        @Size(min = 8, max = 8, message = "Final class must be 8 characters")
         String finalClass,
 
         String excoPosition,

@@ -32,8 +32,18 @@ public class QuestionController {
     @PreAuthorize("hasRole(T(pro.arcodeh.msgoba_2002_server.enums.UserRoles).ADMIN.name())")
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/admin")
-    public List<Question> getQuestionsAdmin() {
-        return this.questionService.getQuestions();
+    public ResponseEntity<?> getQuestionsAdmin(@RequestParam(required = false) UUID id) {
+        if(id != null) {
+            Question question = this.questionService.getQuestionById(id);
+            if(question != null) {
+                return ResponseEntity.ok(question);
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new BasicResponse("Question not found", false));
+            }
+        } else {
+            List<Question> questions = this.questionService.getQuestions();
+            return ResponseEntity.ok(questions);
+        }
     }
 
     @ResponseStatus(HttpStatus.OK)
