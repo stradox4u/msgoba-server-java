@@ -13,4 +13,4 @@ FROM eclipse-temurin:24-jre-alpine
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
 EXPOSE 80
-ENTRYPOINT ["java","-jar","msgoba-2002-server-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java","-jar","app.jar"]
