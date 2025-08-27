@@ -41,6 +41,11 @@ public class QuestionService {
         return this.questionRepository.findAll();
     }
 
+    public Question getQuestionById(UUID questionId) {
+        return this.questionRepository.findById(questionId)
+                .orElseThrow(() -> new NotFoundException("Question with id: " + questionId + " was not found."));
+    }
+
     public List<QuestionLimitedDto> getRandomQuestions(Integer count) {
         return this.questionRepository.findRandomQuestions(count);
     }

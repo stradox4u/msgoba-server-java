@@ -6,4 +6,5 @@ import pro.arcodeh.msgoba_2002_server.models.ProtoProfile;
 import java.util.UUID;
 
 public interface ProtoProfileRepository extends JpaRepository<ProtoProfile, UUID> {
+    ProtoProfile findByEmailIgnoreCase(String email);
 }
