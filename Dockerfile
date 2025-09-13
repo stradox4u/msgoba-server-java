@@ -9,7 +9,7 @@ WORKDIR /app
 COPY . .
 RUN mvn clean package -DskipTests
 
-FROM eclipse-temurin:24-jre-alpine
+FROM eclipse-temurin:24-jre-alpine AS production
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
 COPY src/main/resources/data/*.csv /app/data/
