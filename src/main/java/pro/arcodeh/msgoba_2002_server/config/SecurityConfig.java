@@ -35,7 +35,7 @@ import java.util.Map;
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
-    @Value("${spring.clientdomain")
+    @Value("${spring.clientdomain}")
     private String clientDomain;
 
     private final FirebaseTokenFilter firebaseTokenFilter;
